@@ -6,7 +6,7 @@ their assessment scores, and the locations where the assessments were
 conducted. My analysis aims to provide insights into team performance,
 score distributions, and geographical patterns.
 
-1.  Dataset Overview:
+2.  Dataset Overview:
 
 The “e1\_data” dataset consists of 91 rows and 5 columns:
 
@@ -19,14 +19,14 @@ The “e1\_data” dataset consists of 91 rows and 5 columns:
 For example, the first row of data shows: Team 1, with 8 members, scored
 96.2 in an assessment conducted on May 15th in Norfork.
 
-1.  Methodology
+3.  Methodology
 
 I use R for my analysis, leveraging packages such as tidyverse for data
 manipulation and ggplot2 for visualization. My approach involves data
 processing and data visualizations (bar charts, histograms, density
 plots, line graphs, geographical mapping of scores).
 
-1.  Expected outcome
+4.  Expected outcome
 
 This analysis will provide insights into:
 
@@ -50,9 +50,6 @@ scores that they achieved.
     ## Delimiter: ","
     ## chr (2): assessment_date, location
     ## dbl (3): teamno, num_people, score
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
     e1_stat <- e1_df %>%
       group_by(teamno) %>%
@@ -92,9 +89,6 @@ of people who are on that team, then color in the fill according to
 their average scores.
 
     summarized <- e1_df %>% group_by(teamno, num_people) %>% summarize(avg_score = mean(score)) 
-
-    ## `summarise()` has grouped output by 'teamno'. You can override using the
-    ## `.groups` argument.
 
     summarized %>% ggplot(aes(x = reorder(factor(teamno), avg_score), y = num_people, fill = avg_score)) + 
       geom_col() +
@@ -186,9 +180,6 @@ separate line for each team; use the “linetype” aes to differentiate.
       mutate(assessment_date = as.Date(assessment_date, format = "%B %d")) %>%
       group_by(teamno, month = month(assessment_date)) %>%
       summarize(avg_score = mean(score))
-
-    ## `summarise()` has grouped output by 'teamno'. You can override using the
-    ## `.groups` argument.
 
     temp_df %>% ggplot(aes(x = month, y = avg_score, group = teamno, color = factor(teamno))) +
       geom_line() +
